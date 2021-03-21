@@ -13,9 +13,23 @@ class App(Tk):
 
         os.chdir(os.environ["USER" if os.name != "nt" else "userprofile"])
 
-        for folderOrFile in os.listdir():
-            print(f'[{"DIR" if os.path.isdir(os.path.join(os.getcwd(), folderOrFile)) else "FILE"}] ', end=f"{folderOrFile}\n")
+        self.directoryIndex = 0
+        self.fileIndex = 0
 
+        for folderOrFile in os.listdir():
+            if os.path.isdir(folderOrFile):
+                self.renderDirectory(folderOrFile)
+                self.directoryIndex += 1
+            else:
+                self.renderFile(folderOrFile)
+                self.fileIndex += 1
+
+    def renderDirectory(self, folder):
+        label = Label(self.sidebar, text=folder)
+        label.grid(row=self.directoryIndex, column=0)
+
+    def renderFile(self, file):
+        pass
 
 root = Tk()
 app = App(root)
